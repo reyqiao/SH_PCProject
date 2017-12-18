@@ -1,0 +1,64 @@
+<div class="index-page">
+  <Card class="mb-20">
+    <p slot="title">
+      直播间基础管理
+    </p>
+    <div>
+      <label>游客模式</label>
+      <i-switch :value="liveBaseData.IsVisitor === '1'" @on-change="changeGuest" size="large">
+        <span slot="open">开启</span>
+        <span slot="close">关闭</span>
+      </i-switch>
+    </div>
+  </Card>
+  <Card class="mb-20">
+    <p slot="title">
+      跑马灯公告管理
+    </p>
+    <div>
+      <div class="manage-bar">
+        <Input class="manage-item" v-model="marqueeMessage" style="width: 300px">
+        <span slot="prepend">公告文本：</span>
+        </Input>
+        <Input class="manage-item" v-model="marqueeUrl" style="width: 300px">
+        <span slot="prepend">跳转链接：</span>
+        </Input>
+        <Button class="manage-item" type="primary" @click="addMarquee">添加</Button>
+      </div>
+      <div>
+        <!-- <Table width="800" border :columns="marqueeColumns" :data="liveBaseData.Marquee"></Table> -->
+        <MarqueeList :list="liveBaseData.Marquee"></MarqueeList>
+      </div>
+    </div>
+  </Card>
+  <Card class="mb-20">
+    <p slot="title">
+      直播间公告管理
+    </p>
+    <div class="manage-bar">
+      <Input class="manage-item" v-model="notice" style="width: 500px">
+      </Input>
+      <Button class="manage-item" type="primary" @click="updateNotice">保存</Button>
+    </div>
+  </Card>
+  <Card class="mb-20">
+    <p slot="title">
+      顶部banner管理
+    </p>
+    <Row>
+      <Col span="16">
+      <img v-show="liveBaseData.TopBanner!=''" :src="bannerData" class="banner-img" />
+      </Col>
+      <Col span="8">
+      <input type="file" @change="uploadImg" />
+      </Col>
+      <Col span="24">
+      <Input class="manage-item" v-model="bannerLink" style="width: 600px">
+      <span slot="prepend">跳转链接：</span>
+      </Input>
+      </Col>
+      <Col span="24"><Button type="primary" @click="saveBanner">保存</Button></Col>
+    </Row>
+  </Card>
+  <div ms-html="@page"></div>
+</div>

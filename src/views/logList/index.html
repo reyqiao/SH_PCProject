@@ -1,0 +1,33 @@
+<div class="loglist-page">
+  <h1 class="mb-20">登录退出查询</h1>
+  <div class="manage-bar">
+    <div class="manage-item">
+      <Input v-model="mobile" style="width: 300px" placeholder="请输入完整手机号" />
+    </div>
+    <div class="manage-item">
+      <Input v-model="nickName" style="width: 300px" placeholder="请输入用户昵称" />
+    </div>
+    <div class="manage-item">
+      <Select v-model="channelId" placeholder="请选择归属地">
+        <Option v-for="channel in channelList" :value="channel.channelId" :key="channel.channelId">{{channel.channelName}}</Option>
+      </Select>
+    </div>
+    <div class="manage-item">
+      <Select v-model="source" placeholder="请选择平台" >
+        <Option value="1">Web</Option>
+        <Option value="2">h5</Option>
+      </Select>
+    </div>
+    <div class="manage-item">
+        <DatePicker v-model="addTime" format="yyyyMMdd" type="date" placeholder="请选择日期" style="width: 150px"></DatePicker>
+    </div>
+    <Button class="manage-item" type="primary" @click="refreshLogList">查询</Button>
+    <Button class="manage-item" type="success" @click="exportHandler">导出</Button>
+  </div>
+  <Table border :columns="logColumns" :data="logList" style="margin-top: 20px"></Table>
+  <div style="margin-top: 10px;overflow: hidden">
+    <div style="float: right;">
+      <Page :total="logTotal" :page-size="pageSize" :current="pageindex" @on-change="changePage"></Page>
+    </div>
+  </div>
+</div>

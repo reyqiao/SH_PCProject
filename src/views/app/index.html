@@ -1,0 +1,32 @@
+<div class="layout">
+  <div class="layout-ceiling">
+    <div class="layout-logo">直播管理系统</div>
+    <div class="layout-ceiling-main">
+      <a href="javascript: void(0)">{{userInfo.nickName}}</a> |
+      <a href="javascript: void(0)" @click="logout">退出</a>
+    </div>
+  </div>
+  <div class="layout-content">
+    <Row>
+      <i-col span="5">
+        <Menu :active-name="this.activeName" width="auto" @on-select="selectMenu">
+          <Menu-item name="index">直播间基础管理</Menu-item>
+          <Menu-item name="description">老师介绍管理</Menu-item>
+          <Menu-item name="users">用户管理</Menu-item>
+          <Menu-item name="video">视频管理</Menu-item>
+          <Menu-item name="notice">直播预告管理</Menu-item>
+          <Menu-item name="level">用户级别</Menu-item>
+          <Menu-item name="loglist">登录退出查询</Menu-item>
+        </Menu>
+      </i-col>
+      <i-col span="19">
+        <div class="layout-content-main">
+          <router-view></router-view>
+        </div>
+      </i-col>
+    </Row>
+  </div>
+  <div class="layout-copy">
+
+  </div>
+</div>

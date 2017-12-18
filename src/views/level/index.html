@@ -1,0 +1,26 @@
+<div class="users-page">
+  <h1 class="mb-20">用户级别</h1>
+  <div class="manage-bar">
+    <div class="manage-item">
+      <Input v-model="phone" style="width: 300px" placeholder="请输入昵称或完整手机号" />
+    </div>
+    <div class="manage-item">
+      <Select v-model="channelId" placeholder="请选择归属地">
+        <Option v-for="channel in levelChannelList" :value="channel.channelId" :key="channel.channelId">{{channel.channelName}}</Option>
+      </Select>
+    </div>
+    <Button class="manage-item" type="primary" @click="updateUserLevelList">查询</Button>
+  </div>
+  <Table border :columns="levelColumns" :data="levelList.list" style="margin-top: 20px"></Table>
+  <div style="margin-top: 10px;overflow: hidden">
+    <div style="float: right;">
+      <Page :total="levelList.totalcount" :current="pageIndex" @on-change="changePage"></Page>
+    </div>
+  </div>
+  <Modal
+    v-model="nickModal"
+    title="修改用户昵称"
+    @on-ok="modifyNicknameHandler">
+    <Input v-model="curNickname" placeholder="请输入新昵称" />
+  </Modal>
+</div>

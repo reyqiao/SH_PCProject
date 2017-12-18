@@ -1,0 +1,31 @@
+<div class="users-page">
+  <h1 class="ml-20 mb-20">用户管理</h1>
+  <Tabs :animated="false">
+    <Tab-pane label="黑名单">
+      <HMDList :list="blackList.list" :refresh="updateBlackList" :selectionChange="blackSelectionChange"></HMDList>
+      <div style="margin: 10px;overflow: hidden">
+        <!-- <Button type="primary" @click="deleteAllBlack">全部解除</Button> -->
+        <div style="float: right;">
+          <Page :total="blackList.totalcount" :current="blackPageIndex" @on-change="blackChangePage"></Page>
+        </div>
+      </div>
+    </Tab-pane>
+    <Tab-pane label="禁言">
+      <JYList :list="silenceList.list" :refresh="updateSilenceList" :selectionChange="silenceSelectionChange"></JYList>
+      <div style="margin: 10px;overflow: hidden">
+        <Button type="primary" @click="deleteAllSilence">全部解禁</Button>
+        <div style="float: right;">
+          <Page :total="silenceList.totalcount" :current="silencePageIndex" @on-change="silenceChangePage"></Page>
+        </div>
+      </div>
+    </Tab-pane>
+    <!-- <Tab-pane label="临时会员名单">
+      <HYList :list="vipList.list" :refresh="updateVipList" :selectionChange="vipSelectionChange"></HYList>
+      <div style="margin: 10px;overflow: hidden">
+        <div style="float: right;">
+          <Page :total="vipList.totalcount" :current="vipPageIndex" @on-change="vipChangePage"></Page>
+        </div>
+      </div>
+    </Tab-pane> -->
+  </Tabs>
+</div>

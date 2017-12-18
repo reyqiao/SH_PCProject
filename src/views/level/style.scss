@@ -1,0 +1,21 @@
+.users-page {
+  .user-item {
+    padding: 10px 0;
+
+    .user-name {
+      height: 60px;
+      line-height: 60px;
+      float: left;
+      margin-left: 10px;
+      font-size: 20px;
+    }
+
+    .user-phone {
+      display: inline;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      float: left;
+    }
+  }
+}
