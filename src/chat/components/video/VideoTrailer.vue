@@ -48,13 +48,24 @@
       background: transparent;
       & .closebtn {
         position: absolute;
-        top: -24px;
-        right: -24px;
-        width: 46px;
-        height: 46px;
-        background-image: url(../../images/yugaocolse.png);
-        background-repeat: no-repeat;
-        background-size: contain;
+        width: 34px;
+        height: 34px;
+        top: -70px;
+        right: 0;
+        cursor: pointer;
+        background: url(../../img/close.png);
+        // background-repeat: no-repeat;
+        // background-size: contain;
+        cursor: pointer;
+        &::after {
+          content: '';
+          position: absolute;
+          width: 1px;
+          height: 36px;
+          background: #fff;
+          left: 50%;
+          top: 34px;
+        }
       }
       .noticePic {
         text-align: center;

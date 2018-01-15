@@ -1,7 +1,7 @@
 <template lang="html">
 	<div v-show="activityShow" class="activity">
 		<div class="msg">
-			<div class="closebtn" @click="closebtn()"></div>
+			<div class="close-btn" @click="closebtn()"></div>
       <div class="noticePic">
         <a :href="getTopBanner.bannerLink">
           <img :src="getTopBanner.topBanner"></img>
@@ -52,6 +52,24 @@
         background-image: url(../images/yugaocolse.png);
         background-repeat: no-repeat;
         background-size: contain;
+      }
+      .close-btn {
+        position: absolute;
+        width: 34px;
+        height: 34px;
+        top: -70px;
+        right: 0;
+        cursor: pointer;
+        background: url('../img/close.png');
+        &::after {
+          content: '';
+          position: absolute;
+          width: 1px;
+          height: 36px;
+          background: #fff;
+          left: 50%;
+          top: 34px;
+        }
       }
       .noticePic {
         text-align: center;

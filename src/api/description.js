@@ -6,7 +6,6 @@ import host from './host.js';
 
 const liveHost = `${host}api/`;
 
-// const liveHost = 'https://live.fxtrade888.com/api/'; // 'https://shlive.niuguwang.com/api/';
 // 老师介绍管理
 /**
  * 根据Id获取老师编辑信息

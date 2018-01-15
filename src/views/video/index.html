@@ -50,10 +50,10 @@
           <Input v-model="liveVideo.Introduce" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入老师详细介绍" style="width: 600px"></Input>
         </Form-item>
         <Form-item>
-          <Button type="primary" @click="addVideo">添加</Button>
+          <Button type="primary" @click="addVideo">保存</Button>
         </Form-item>
       </Form>
     </div>
-    <VideoList :list="liveVideoList" :deleteHandler="deleteVideo"></VideoList>
+    <VideoList :list="liveVideoList" :editHandler="editVideo" :deleteHandler="deleteVideo"></VideoList>
   </Card>
 </div>

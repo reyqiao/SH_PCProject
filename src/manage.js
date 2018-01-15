@@ -5,7 +5,6 @@ import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import routes from './routes';
 import store from './store/';
-
 import './manage.scss';
 
 Vue.use(VueRouter);

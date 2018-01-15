@@ -75,7 +75,7 @@
 <script>
 import * as types from '../store/mutation-types';
 import { mapGetters, mapMutations } from 'vuex';
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import API from '../api/API';
 export default {
   name: 'strategy',
@@ -162,7 +162,7 @@ export default {
       // 成功后更新megList
       API.closePosition({
         // usertoken: Cookies.get('token'),
-        usertoken: this.$root.token,
+       usertoken: this.$root.token,
         action: 'callpc',
         cid: this.pingCangId,
         pcprice: this.pingCangPrice
@@ -227,7 +227,7 @@ export default {
       API.delMesMag({
         action: 'callorderdel',
         // usertoken: Cookies.get('token'),
-        usertoken: this.$root.token,
+       usertoken: this.$root.token,
         cid,
       }).then(res => {
         if (res.code === '0') {
@@ -241,7 +241,7 @@ export default {
     getTeacherList() {
       API.getAllTeachers({
         // usertoken: Cookies.get('token'),
-        usertoken: this.token,
+       usertoken: this.token,
         action: 'getallteacherlist'
       }).then(res => {
         if (res.code === 0) {
@@ -255,6 +255,7 @@ export default {
       this.getRoleId();
       API.getLiveMesMagList({
         usertoken: this.$root.token,
+        // usertoken:Cookies.get('token'),
         action: 'getcallorderlist',
         tid: this.tid,
         type: this.handlerIndex,
@@ -285,7 +286,7 @@ export default {
 
     },
     getRoleId() {
-      const roleid = '' + this.$root.roleId; // Cookies.get('roleId');
+      const roleid = '' +this.$root.roleId; // Cookies.get('roleId');
       if (roleid === '7' || roleid === '14') {
         this.authId = 2
       } else if (roleid === '-1' || roleid === '2' || roleid === '4' || roleid === '5' || roleid === '8' || roleid === '13') {
@@ -589,6 +590,7 @@ export default {
     height: 34px;
     top: -70px;
     right: 0;
+    cursor: pointer;
     background: url('../img/close.png');
     &::after {
       content: '';

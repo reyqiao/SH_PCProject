@@ -10,6 +10,7 @@ import {
   deleteLiveVideoType,
   addLiveVideo,
   deleteLiveVideo,
+  getLiveVideo,
 } from 'api/video';
 
 export default {
@@ -95,6 +96,16 @@ export default {
     }, payload) {
       const userToken = rootState.app.userInfo.userToken;
       return deleteLiveVideo({
+        ...payload,
+        userToken,
+      });
+    },
+    getLiveVideo({
+      commit,
+      rootState,
+    }, payload) {
+      const userToken = rootState.app.userInfo.userToken;
+      return getLiveVideo({
         ...payload,
         userToken,
       });

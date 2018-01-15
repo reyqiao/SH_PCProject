@@ -4,7 +4,7 @@ import {
 } from './request';
 import host from './host.js';
 
-const liveHost = `${host}api/`;// 'https://live.fxtrade888.com/api/'; // 'https://shlive.niuguwang.com/api/';
+const liveHost = `${host}api/`;
 /**
  * 用户登录接口
  */

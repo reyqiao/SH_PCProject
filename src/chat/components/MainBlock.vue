@@ -28,9 +28,10 @@ export default {
 .main-video {
   height: 100%;
   flex: 1;
+  background-image:url('../images/bg.jpg');
   // display: flex;
   // flex-direction: column;
-  margin: 0 6px;
+  margin-right:6px;
   position: relative;
   .video-js .vjs-big-play-button:before,
   .video-js .vjs-control:before,

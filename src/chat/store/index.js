@@ -177,7 +177,8 @@ export default new Vuex.Store({
     // 禁言列表
     laheilist: [],
     noticeStrategy: '',
-    noticeBlackList: false
+    noticeBlackList: false,
+    bannerModal: false
   },
   actions,
   getters,

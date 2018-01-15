@@ -1,5 +1,6 @@
 <template lang="html">
 	<video autoplay class="live-video video-js" id="live-video" preload loop @contextmenu.prevent="" controls></video>
+
 </template>
 
 <script>
@@ -56,6 +57,7 @@ export default {
   methods: {
     initLiveVideo() {
       const player = videojs('live-video', { "controls": true, techOrder: ['html5', 'flash'] });
+      console.log("直播视频");
       player.src({
         src: this.getVideoUrl.videoUrl,
         type: 'rtmp/mp4',
@@ -64,6 +66,7 @@ export default {
     },
     initVideo(arr) {
       const player = videojs('live-video', { "controls": true, techOrder: ['flash', 'html5'] })
+      console.log("回放视频");      
       player.src(arr);
       player.play();
     },

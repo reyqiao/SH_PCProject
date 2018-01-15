@@ -8,6 +8,9 @@ import {
   updateLiveMarquee,
   updateLiveBaseNotice,
   updateLiveBaseTopBanner,
+  updateLiveBaseHeaderBanner,
+  updateLiveBaseProsum,
+  updateLiveBasePoppic,
 } from 'api/base';
 
 export default {
@@ -83,6 +86,36 @@ export default {
     }, payload) {
       const userToken = rootState.app.userInfo.userToken;
       return updateLiveBaseTopBanner({
+        ...payload,
+        userToken,
+      });
+    },
+    updateLiveBaseHeaderBanner({
+      commit,
+      rootState,
+    }, payload) {
+      const userToken = rootState.app.userInfo.userToken;
+      return updateLiveBaseHeaderBanner({
+        ...payload,
+        userToken,
+      });
+    },
+    updateLiveBaseProsum({
+      commit,
+      rootState,
+    }, payload) {
+      const userToken = rootState.app.userInfo.userToken;
+      return updateLiveBaseProsum({
+        ...payload,
+        userToken,
+      });
+    },
+    updateLiveBasePoppic({
+      commit,
+      rootState,
+    }, payload) {
+      const userToken = rootState.app.userInfo.userToken;
+      return updateLiveBasePoppic({
         ...payload,
         userToken,
       });

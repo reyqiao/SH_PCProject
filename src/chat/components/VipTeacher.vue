@@ -1,4 +1,4 @@
-<template lang="html">
+`<template lang="html">
   <div class="mask">
     <div class="teacher-modal" id="teacherModal">
       <div class="close-btn" @click="close"></div>
@@ -115,6 +115,7 @@ export default {
     height: 34px;
     top: -70px;
     right: 0;
+    cursor: pointer;
     background: url('../img/close.png');
     &::after {
       content: '';

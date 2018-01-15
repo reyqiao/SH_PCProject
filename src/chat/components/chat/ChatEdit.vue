@@ -4,7 +4,7 @@
 		<div class="chateditmsg" contenteditable="true" @click="editMstFocus" id="txtMsg" placeholder="观望一天不如咨询一遍，请输入您的问题">
     </div>
     <div class="msgsend">
-      <div class="send" @click.stop="send">发送</div>
+      <div class="send" @click.stop="send"></div>
     </div>
 	</div>
 </template>
@@ -132,9 +132,11 @@ export default {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 180px;
-  background: rgb(44, 47, 53);
+  height: 178px;
   flex: 1;
+  margin-bottom: 2px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.5);
   [contenteditable=true]:empty:before {
     content: attr(placeholder);
     display: block;
@@ -143,16 +145,17 @@ export default {
   & .chateditmsg {
     margin: 6px;
     padding: 10px 10px 10px 16px;
-    width: 100%;
+    width: 82%;
     font-size: 18px;
     line-height: 30px;
     overflow: hidden;
     overflow-y: auto;
     outline: none;
-    height: 120px;
-    background: rgb(59, 64, 74);
-    border: 1px solid rgb(32, 35, 40);
-    color: #fff;
+    height: 100px;
+    background: #fff;
+    border: 0px solid rgb(32, 35, 40);
+    border-radius: 5px;
+    //color: rgb(7, 7, 7);
   }
   & .sendfly {
     position: absolute;
@@ -170,15 +173,16 @@ export default {
   }
   & .send {
     position: absolute;
-    right: 25px;
-    bottom: 20px;
-    width: 54px;
-    height: 27px;
+    right: 15px;
+    bottom: 15px;
+    width: 98px;
+    height: 98px;
     line-height: 27px;
     font-size: 16px;
     color: rgb(154, 97, 15);
     text-align: center;
-    background-color: rgb(254, 214, 65);
+    // background-color: rgb(254, 214, 65);
+    background-image: url(../../images/sendNew.png);
     cursor: pointer;
   }
 }

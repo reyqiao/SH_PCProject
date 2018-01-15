@@ -93,7 +93,8 @@ export default {
     }
   }
   & .videofine_list {
-    padding: 16px 20px 0 16px;
+    padding: 16px 20px 25px 16px;
+    max-height: 145px;
     & .list_img {
       display: block;
       width: 190px;

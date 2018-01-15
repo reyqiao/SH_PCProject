@@ -57,14 +57,17 @@ export default {
         mobile: this.username,
         password: this.userpwd,
       }).then((res) => {
-        // Cookies.set('token', res.userToken, { expires: 7 });
-        // Cookies.set('roleId', res.roleId, { expires: 7 });
+        /*cookie 保持到本地 */
+        //  Cookies.set('token', res.userToken, { expires: 7 });
+        //  Cookies.set('roleId', res.roleId, { expires: 7 });
+        /*cookie 保持到本地 */
         this.$emit('token', res.userToken);
         this.$emit('roleid', res.roleId);
         this.$store.commit('setIsLogin', true);
         this.$store.dispatch('getRobot', res.userToken);
         this.$store.commit('setLoginShow', false);
         this.$store.commit('setIsLoading', false);
+        // this.$store.commit('showRegisterBtn',false);
         this.$store.commit('noticeStrategy', new Date().toString());
         this.showRegisterBtnState(res.roleId);
 

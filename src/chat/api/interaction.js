@@ -1,7 +1,6 @@
 /**
  * 通用交互
  */
-// import Cookie from 'js-cookie';
 import API from './API';
 
 // const authURL = 'https://user.niuguwang.com/api_wap/wechat/oauthLogin.aspx?oauthtype=wechat&back=';
@@ -34,8 +33,8 @@ export const search = (key) => {
  * 校验
  */
 export const auth = () => {
+  const token = search('userToken');  
   // const token = search('userToken') || Cookie.get('userToken');
-  const token = search('userToken');
   return new Promise((resolve, reject) => {
     if (token) {
       resolve(token);
@@ -87,7 +86,8 @@ export const limitBehavior = () => {
 export const faceToImg = (content) => {
   return content.replace(/\[([0-9a-f]{4,5})\]/g, (match, group) => {
     if (group.length < 6) {
-      return `<img style="width:30px;height:30px;" src="https://i0.niuguwang.com/emoji/emoji_${group}.png">`;
+      return `<img style="width:24px;height:24px;" src="https://live.fxtrade888.com/live/static/face/${group}.gif">`;
+      // return `<img style="width:24px;height:24px;border:0px" src="http://www.jq22.com/demo/qqFace/arclist/${content}.gif">`;
     }
     return match;
   });

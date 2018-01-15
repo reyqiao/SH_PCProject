@@ -18,6 +18,11 @@ export default {
     return {
       topBanner: state.topBanner,
       bannerLink: state.bannerLink,
+      HeaderBannerData: state.HeaderBannerData,
+      HeaderBannerLink: state.HeaderBannerLink,
+      HeaderBannerLinkTo: state.HeaderBannerLinkTo,
+      poppicData: state.PoppicData,
+      poppicLink: state.PoppicLink,
     };
   },
   /*
@@ -201,6 +206,9 @@ export default {
   },
   teacherModal(state) {
     return state.teacherModal;
+  },
+  bannerModal(state) {
+    return state.bannerModal; 
   },
   activityShow(state) {
     return state.activityShow;

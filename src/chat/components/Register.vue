@@ -53,7 +53,7 @@ export default {
       vcode: '',
       pwd: '',
       nicheng: '',
-      channelId: undefined,
+      channelId: 1,
       channelList: [],
     }
   },

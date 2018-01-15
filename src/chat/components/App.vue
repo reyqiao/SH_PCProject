@@ -10,8 +10,16 @@
     </div>
     <VipTeacher v-show="teacherModal"/>
     <Strategy v-show="strategyShow"/>
+    <BannerPic v-show="bannerModal"/>
     <VideoTrailer/>
     <NoticePic/>
+    <!--暂时不需要-->
+   <div id="myRewards" class="myRewards" v-show="false" >
+    <div class="myRewards-main">
+       <img style="height:120px;width:120px;padding:5px;" src="https://live.fxtrade888.com/live/static/img/qrcode.png">
+      <h1 class="myR-h"><span style="color:gray">扫一扫,</span>领策略</h1>       
+    </div>
+    </div>
 	</div>
 </template>
 
@@ -26,6 +34,7 @@ import MainBlock from './MainBlock.vue';
 import LeftBlock from './LeftBlock.vue';
 import RightBlock from './RightBlock.vue';
 import VipTeacher from './VipTeacher.vue';
+import BannerPic from './BannerPic.vue';
 import Strategy from './Strategy.vue';
 import VideoTrailer from './video/VideoTrailer.vue';
 import NoticePic from './NoticePic.vue';
@@ -33,12 +42,16 @@ import auth from '../api/auth.js';
 import * as IMHelper from '../api/IMHelper';
 import { mapGetters, mapMutations, mapActions, } from 'vuex';
 import { faceToImg, } from '../api/interaction.js';
+import countUp from '../../static/countUp.min.js' //注意路径
 
 export default {
   data() {
     return {
       feiping: {},
       showLoginTime: 0,
+      num: 1000,
+      baseNum: 200,
+      floorNum: 100,
     }
   },
   components: {
@@ -50,10 +63,11 @@ export default {
     VipTeacher,
     Strategy,
     VideoTrailer,
-    NoticePic
+    NoticePic,
+    BannerPic,
   },
   computed: {
-    ...mapGetters(['getisLogin', 'getIsVisitor', 'getUserInfos', 'getEmojiShow', 'getVideoUrl', 'teacherModal', 'strategyShow']),
+    ...mapGetters(['getisLogin', 'getIsVisitor', 'getUserInfos', 'getEmojiShow', 'getVideoUrl', 'teacherModal', 'strategyShow','bannerModal']),
     ...mapMutations(['setIsLoading', 'setLoginShow', 'setIsLogin', 'addMsgs', 'setUserInfos', 'setEmojiShow', 'setLoginCLose']),
     ...mapActions(['getUserInfoByToken', 'getChatHistoryMsg', 'getPlayLive', 'noticeStrategy']),
   },
@@ -97,9 +111,9 @@ export default {
       document.querySelector('#live-video .vjs-poster').style['backgroundSize'] = 'contain';
     },
     handleOnmsgs(msgs) {
-      console.log('收到聊天室消息', msgs);
+      console.log('收到聊天室消息', msgs);     
       let [msgItem] = msgs;
-      let { type, custom, } = msgItem;
+      let { type, custom,content, } = msgItem;
       console.log(123, custom);
       if (!custom) {
         return false;
@@ -107,15 +121,35 @@ export default {
       let customjson = JSON.parse(custom);
       // 飞屏回调
       if (customjson.ext.mstype === 4) {
-        const value = customjson.attach;
+        const value = content;
+        let i= value.split('|').length;
+        // console.log('飞屏文本'+value.split('|')[0]);        
+        // console.log('飞屏图片'+value.split('|')[1]);
+        let isShowImg=false;
+        let isShowTxt=false;
+        if(i>=2&value.split('|')[1]!='')isShowImg=true;
+        if(i>=2&value.split('|')[0]!='')isShowTxt=true;        
         const id = customjson.msgId;
-        const fptmp = `<div class="feiping" id="${id}">${value}</div>`;
+        const fptmptxt = `<div class="feiping" id="${id}"><span style="font-size: 50px;font-weight: bold;line-height: 25px;margin: 5px 0 0 5px;color: #eabb15;">${value.split('|')[0]}</span></div>`;
+        const fptmpImg = `<div class="feiping" id="${id}"><img src="${value.split('|')[1]}"  style="max-height:500px;max-width:600px"/></div>`;
+        const fptmp = `<div class="feiping" id="${id}"><img src="${value.split('|')[1]}"  style="max-height:500px;max-width:600px;"/><span style="font-size: 50px;font-weight: bold;line-height: 25px;margin: 5px 0 0 5px;color: #eabb15;">${value.split('|')[0]}</span></div>`;
+        
+      //  const imgDiv=`<img src="${value.split('|')[1]}" v-show="isShow" width="400" height="300"/>`;
         if (value) {
-          $('.feiping-container').append(faceToImg(fptmp));
+          //$('.feiping-container').append(faceToImg(fptmp));
+        if(isShowImg&&isShowTxt)
+          {
+            $('.feiping-container').append(faceToImg(fptmp));          
+          }
+        if(isShowImg)
+            $('.feiping-container').append(faceToImg(fptmpImg));
+        if(isShowTxt)
+            $('.feiping-container').append(faceToImg(fptmptxt));
+            
           const domWidth = $(`#${id}`).width();
           $(`#${id}`).animate({
             right: window.innerWidth + domWidth,
-          }, 20000, () => {
+          }, 30000, () => {
             $(`#${id}`).remove();
           });
         }
@@ -145,7 +179,7 @@ export default {
       }
       //  如果是彩条直接发送
       // if (this.getUserInfos.niuguname === msgItem.fromNick && customjson.isAudit === 1) {
-      if (customjson.ext.mstype === 3 || customjson.ext.mstype === 7 || customjson.ext.mstype === 5 || customjson.ext.mstype === 6) {
+      if (customjson.ext.mstype === 3 || customjson.ext.mstype === 7 || customjson.ext.mstype === 5 || customjson.ext.mstype === 6 ||customjson.ext.mstype === 14 ||customjson.ext.mstype === 13) {
         this.$store.commit('addMsgs', msgItem);
         return false;
       }
@@ -167,7 +201,7 @@ export default {
       }
     },
     initLoginShow() {
-      if (this.getIsVisitor === '0' && !this.showRegisterBtn)
+      if (this.getIsVisitor === '0' &&!this.showRegisterBtn)
       {
         this.$store.commit('setLoginShow', true);
         this.$store.commit('setLoginCLose', false);
@@ -192,16 +226,73 @@ export default {
       //   }, this.showLoginTime - duration);
       // }
     },
+    getInlinePerson() {
+      return API.getInlinePersons({
+         //usertoken: Cookie.get('token'),180111
+        usertoken: this.$root.token,
+        action: 'getacount',
+      }).then(res => {
+        if (res.code === 0) {
+          this.baseNum = res.data;
+          if (this.baseNum === 0) {
+            this.num = 0;
+          } else {
+            this.num = Math.floor(Math.random() * 2) + this.baseNum;
+          }
+        }
+      });
+    },
+    getInlineNumber(){      
+      const temCount = Math.floor(Math.random() * 2) - 30 + this.num;
+      if (this.baseNum === 0 && this.floorNum === 0) {
+        this.num = 0;
+      } else if (temCount >= this.baseNum + this.floorNum) {
+        this.num = temCount - 20;
+      } else if (temCount <= this.baseNum - this.floorNum || temCount <= 5) {
+        this.num = temCount + 30;
+      } else {
+        this.num = temCount;
+      }
+    },
+    getFloorNumber() {
+      const time = new Date().getHours();
+      if (time > 10 && time < 12) {
+        this.floorNum = 100;
+      } else if (time >= 12 && time <= 18) {
+        this.floorNum = 150;
+      } else if (time >= 18 && time <= 22) {
+        this.floorNum = 200;
+      } else {
+        this.floorNum = 0;
+      }
+    },
   },
   mounted() {
+    let demo = new countUp('onlineNum', this.num,1000 , 0, 10, {useGrouping: true, separator: '',});
+    if (!demo.error) {
+      // console.log('随机人数计算', demo);
+      demo.start();
+    } else {
+      console.error(demo.error);
+    }
+    this.getFloorNumber();
+    this.getInlinePerson().then(() => {
+      setInterval(() => {
+        this.getInlineNumber();
+        demo.update(this.num);
+      }, 10000)
+    });
+
     window.addEventListener('click', (e) => {
-      console.log('全局点击操作-做一些点击取消操作');
+      console.log('全局点击操作-做一些点击取消操作'+e.target.id );
       if (e.target.id !== 'emoji_btn') {
         this.$store.commit('setEmojiShow', false);
       };
     }, false);
-    this.$store.commit('setIsLoading', true);
+    this.$store.commit('setIsLoading', true);///////Cookies.get('token') 修改
     this.$store.commit('setTeacherModal', false);
+    this.$store.commit('setBannerModal', false);
+    
     // if (Cookies.get('token')) {
     if (this.$root.token) {
       this.$store.commit('setIsLogin', true);
@@ -214,7 +305,7 @@ export default {
     this.$store.dispatch(`${types.GET_LIVE_MAIN_DATA}`).then(() => {
       if (this.getisLogin) {
         this.$store.dispatch('getUserInfoByToken', {
-          // usertoken: Cookies.get('token'),
+          //usertoken: Cookies.get('token'),
           usertoken: this.$root.token,
           userid: 0,
         }).then((res) => {
@@ -308,24 +399,83 @@ export default {
     bottom: 0;
     width: 100%;
     display: flex;
+    background-image:url('../images/bg.jpg');
     // flex-direction: row;
     // flex: 1;
   }
   .feiping {
     position: absolute;
-    top: 222px;
+    top: 10%;
     right: 0;
     transform: translateX(100%);
     text-shadow: rgb(0, 0, 0) 1px 0px 1px, rgb(0, 0, 0) 0px 1px 1px, rgb(0, 0, 0) 0px -1px 1px, rgb(0, 0, 0) -1px 0px 1px;
     white-space: pre;
     pointer-events: none;
     color: #fff;
-    z-index: 100;
+    z-index:999999;
     font-size: 50px;
     font-family: SimHei, "Microsoft JhengHei", Arial, Helvetica, sans-serif;
     font-weight: bold;
     opacity: 0.94;
     -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.9);
   }
+  .myRewards {
+    position: fixed;
+    _position: absolute;
+    right: -80px;
+    top: 11%;
+    z-index: 10000;
+    padding-left: 34px;
+    width: 200px;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+.myRewards-main {
+    width: 120px;
+    height:145px;
+    font: 12px/1.5 "microsoft yahei",tahoma,arial,sans-serif;
+    ; color: #000;
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    // border-right: none;
+    border-radius: 5px;
+}
+.myRewards-detail {
+    display: inline-block;
+    *display: inline;
+    *zoom:1; vertical-align: middle;
+    width: 150px;
+    height: 280px;
+    font-size: 12px;
+    background-color: #fff;
+}
+.myRewards-ubox {
+    padding: 14px 0 0 10px;
+}
+.myRewards-code-tit {
+    margin: 0 0 20px;
+    width: 132px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    text-align: center;
+    // background: url(../img/tab_pay.jpg) no-repeat;
+}
+.myR-h {
+    padding: 0 0 0 6px;
+    font-size: 14px;
+    font-weight: normal;
+    background-image: none;
+    text-align: center;
+    color: #f30;
+}
+.myR-l {
+    padding: 0 0 0 6px;
+    font-size: 14px;
+    font-weight: normal;
+    background-image: none;
+    text-align: center;
+    color: rgb(163, 159, 158);
+}
 }
 </style>

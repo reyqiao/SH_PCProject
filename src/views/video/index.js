@@ -59,6 +59,9 @@ const VideoList = Vue.extend({
     list: {
       type: Array,
     },
+    editHandler: {
+      type: Function,
+    },
     deleteHandler: {
       type: Function,
     },
@@ -77,7 +80,7 @@ const VideoList = Vue.extend({
           const {
             Id,
           } = row;
-          return `<i-button type="error" @click="deleteVideo('${Id}')" style="margin-left: 8px">删除</i-button>`;
+          return `<i-button type="primary" @click="editVideo('${Id}')" style="margin-left: 8px">编辑</i-button> <i-button type="error" @click="deleteVideo('${Id}')" style="margin-left: 8px">删除</i-button>`;
         },
       }],
     };
@@ -85,6 +88,9 @@ const VideoList = Vue.extend({
   methods: {
     deleteVideo(Id) {
       this.deleteHandler(Id);
+    },
+    editVideo(Id) {
+      this.editHandler(Id);
     },
   },
 });
@@ -98,6 +104,7 @@ export default Vue.extend({
   data() {
     return {
       liveVideo: {
+        Id: 0,
         VideoTheme: '',
         VideoId: '',
         Cover: '',
@@ -128,6 +135,7 @@ export default Vue.extend({
       'deleteLiveVideoType',
       'addLiveVideo',
       'deleteLiveVideo',
+      'getLiveVideo',
     ]),
     addVideoType() {
       if (this.VideoTypeName.length === 0 || /^[ ]+$/.test(this.VideoTypeName)) {
@@ -224,6 +232,21 @@ export default Vue.extend({
         if (res.result === 1 || res.result === '1') {
           this.getLiveVideoList();
           this.$Message.success(MSG_SUC);
+        } else {
+          this.$Message.error(MSG_SERVER_ERR);
+          console.log('[error]', res);
+        }
+      }, (err) => {
+        this.$Message.error(MSG_ERR);
+        console.log('[error]', err);
+      });
+    },
+    editVideo(VideoId) {
+      this.getLiveVideo({
+        VideoId,
+      }).then((res) => {
+        if (res.result === 1 || res.result === '1') {
+          this.liveVideo = res.Video[0];
         } else {
           this.$Message.error(MSG_SERVER_ERR);
           console.log('[error]', res);

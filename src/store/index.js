@@ -9,6 +9,7 @@ import description from 'models/description';
 import users from 'models/users';
 import vedio from 'models/vedio';
 import notice from 'models/notice';
+import serviceQQ from 'models/serviceQQ';
 import app from 'models/app';
 import loglist from 'models/loglist';
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     users,
     vedio,
     notice,
+    serviceQQ,
     loglist,
   },
 });

@@ -82,7 +82,8 @@
     // position: relative;
     width: 100%;
     // margin-top: 44px;
-    background: rgb(44, 47, 53);
+    // background: rgb(44, 47, 53);
+    background-image:url('../../images/bg.jpg');
     // height: calc(100% - 180px);
     max-height: 700px;
     overflow-y: auto;
@@ -100,7 +101,8 @@
       width: 100%;
       overflow-x: hidden;
       overflow-y: auto;
-      min-height: 360px;
+      min-height: 760px;
+      background: rgba(0, 0, 0, 0.5);
     }
   }
 </style>

@@ -2,6 +2,7 @@
   <div class="left-nav">
     <div class="nav-item" @click="openWindow">
       <img src="../img/about.png">
+      <!--@mouseover="pic1 = pic11" @mouseout="pic1 = pic111"-->
       <p>关于我们</p>
     </div>
     <div class="nav-item" @click="showTeacher">
@@ -31,6 +32,7 @@
           <br>手机看直播</p>
       </lightbox>
     </div>
+
     <div class="modals">
       <Modal :mask-closable="false" title="汇交易 - 专注交易者实战交易" v-model="aboutus" class="about-modal" width='800' height="500">
         <div class="content">
@@ -54,8 +56,14 @@
           </div>
         </div>
       </Modal>
-      <Modal :mask-closable="false" v-model="showService" class="service-modal" width='576' height="442">
-        <img src="../img/server_system_detail.png" alt="">
+      <Modal :closable="false" v-model="showService" class="service-modal" width='576' height="442">
+        		<div >
+              <div class="closebtn" @click="closebtn()"></div>
+              <div class="noticePic">
+            <img src="../img/server_system_detail.jpg" alt="">
+               
+              </div>
+            </div>
       </Modal>
       <Modal :mask-closable="false" v-model="showdownload" width="846" title="软件下载" class="down-modal">
         <Row class="content">
@@ -83,6 +91,9 @@ export default {
       showService: false,
       showdownload: false,
       aboutus: false,
+      pic1: `./static/img/about.png`,//图片切换
+      pic11: `./static/img/about_on.png`,
+      pic111: `./static/img/about.png`,
     }
   },
   methods: {
@@ -109,6 +120,9 @@ export default {
     },
     download() {
       this.showdownload = true;
+    },
+    closebtn () {
+      this.showService = false;
     }
   }
 }
@@ -178,10 +192,31 @@ export default {
     background: #2D2D2E;
   }
 }
-
+.closebtn {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  top: -70px;
+  right: 0;
+  cursor: pointer;
+  background: url(../img/close.png);
+  // background-repeat: no-repeat;
+  // background-size: contain;
+  cursor: pointer;
+  &::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 36px;
+    background: #fff;
+    left: 50%;
+    top: 34px;
+  }
+}
 .service-modal {
   .ivu-modal-body {
     padding: 0;
+    margin-top: 25%;
   }
   .ivu-icon.ivu-icon-ios-close-empty {
     color: #fff;
@@ -243,14 +278,28 @@ export default {
   width: 6%;
   height: 100%;
   padding-top: 20px;
-  background: rgb(52, 56, 64);
+  background: #212224;
   .nav-item {
     width: 100%;
     text-align: center;
     margin: 16px auto;
     cursor: pointer;
     img {
-      width: 42%;
+      width: 60%;
+    }
+    p {
+      color: #fff;
+    }
+  }
+  .nav-item:hover {
+    width: 100%;
+    text-align: center;
+    margin: 16px auto;
+    background: #43464c;
+    // border-radius: 5px;
+    cursor: pointer;
+    img {
+      width: 60%;
     }
     p {
       color: #fff;

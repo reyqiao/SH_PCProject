@@ -7,6 +7,7 @@ import app from 'views/app';
 import login from 'views/login';
 import level from 'views/level';
 import loglist from 'views/logList';
+import serviceQQ from 'views/serviceQQ';
 
 export default [{
   path: '/',
@@ -39,6 +40,10 @@ export default [{
     path: '/loglist',
     name: '/loglist',
     component: loglist,
+  }, {
+    path: 'serviceQQ',
+    name: '/serviceQQ',
+    component: serviceQQ,
   }, {
     path: '/',
     component: index,

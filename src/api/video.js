@@ -7,7 +7,6 @@ import host from './host.js';
 
 const liveHost = `${host}api/`;
 
-// const liveHost = 'https://live.fxtrade888.com/api/'; // 'https://shlive.niuguwang.com/api/';
 /**
  * 获取视频列表
  */
@@ -48,5 +47,12 @@ export const addLiveVideo = (payload) => {
  */
 export const deleteLiveVideo = (payload) => {
   const url = `${liveHost}LiveVideoApi.ashx?action=DeleteLiveVideo`;
+  return get(url, payload);
+};
+/**
+ * 删除视频
+ */
+export const getLiveVideo = (payload) => {
+  const url = `${liveHost}LiveVideoApi.ashx?action=GetLiveVideo`;
   return get(url, payload);
 };

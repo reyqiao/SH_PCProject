@@ -121,7 +121,7 @@
        * setUserInfos 设置登录的用户信息
        * setLoginShow 设置显示登录框
        */
-      ...mapMutations(['setGetpwdShow', 'setIsLoading', 'setIsLogin', 'setUserInfos', 'setLoginShow']),
+      ...mapMutations(['setGetpwdShow', 'setIsLoading', 'set', 'setUserInfos', 'setLoginShow']),
     },
   }
 </script>

@@ -8,6 +8,11 @@ export default {
       state.topBanner = payload.TopBanner;
       state.marquee = payload.Marquee;
       state.bannerLink = payload.BannerLink;
+      state.HeaderBannerData = payload.HeaderBannerData;
+      state.HeaderBannerLink = payload.HeaderBannerLink;
+      state.HeaderBannerLinkTo = payload.HeaderBannerLinkTo;
+      state.PoppicData = payload.PoppicData;
+      state.PoppicLink = payload.PoppicLink;
     }
   },
   [types.GET_LIVE_VIDEO_TYPE](state, payload) {
@@ -231,6 +236,7 @@ export default {
   },
   // 设置注册按钮的显示
   showRegisterBtn(state, payload) {
+    // if (payload !== 0) {
     if (payload === 13 || payload === 7 || payload === 14 || payload === 5) {
       state.showRegisterBtn = true;
     } else {
@@ -247,5 +253,9 @@ export default {
   // 通知即时策略更新数据
   noticeStrategy(state, payload) {
     state.noticeStrategy = payload;
+  },
+  // 设置定时banner图片
+  setBannerModal(state, payload) {
+    state.bannerModal = payload;
   },
 };

@@ -1,8 +1,9 @@
 <template lang="html">
 	<div class="videotipsf">
     <div class="videoinfos f-l">
-      <img src="../../img/video.png">
+      <img src="../../img/live.png">
       <span>{{getVideoTitle}}</span>
+      <span v-show="getVideoUrl.type === 'zhibo'"><a href="#" @click="gobackLive()"><img src="../../img/right-arrow.png" style="height:14px;width:14px" alt="返回直播" title="返回直播"/></a></span>
     </div>
 		<div v-show="getMarqueeifshow" class="videotips f-r">
 			<div class="marqueelist">
@@ -20,16 +21,28 @@
 <script>
   import { mapGetters } from 'vuex';
   import { mapMutations } from 'vuex';
+  const videojs = window.videojs;
+  videojs.options.flash.swf = './static/video-js.swf';
 
   export default {
     methods: {
       marqueeclose () {
         this.$store.commit('setMarqueeifshow', false);
       },
+      gobackLive () {
+        this.$store.commit('setVideoTitle', `正在直播：${this.getVideoUrl.title}`);
+        const player = videojs('live-video', { "controls": true, techOrder: ['flash', 'html5'] });
+        player.src({
+          src: this.getVideoUrl.videoUrl,
+          type: 'rtmp/mp4',
+        });
+        player.play();
+      },
     },
     computed: {
       ...mapGetters(['getMarquee', 'getMarqueeifshow', 'getVideoTitle']),
       ...mapMutations(['setMarqueeifshow']),
+      ...mapGetters(['getNotice', 'getVideoUrl', 'getBackLive']),
     }
   }
 </script>
@@ -40,7 +53,7 @@
     height: 30px;
     background: #212224;
     .videoinfos{
-      width: 30%;
+      width: 25%;
       height: 30px;
       line-height: 30px;
       color: #fff;
@@ -51,7 +64,7 @@
       }
     }
     & .videotips {
-      width: 66%;
+      width: 75%;
       height: 30px;
       background: #212224;
       position: relative;

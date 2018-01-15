@@ -1,0 +1,42 @@
+<div class="users-page">
+  <Card class="mb-20">
+    <p slot="title">
+      客服排班管理
+    </p>
+    <div class="manage-bar">
+      <div class="manage-item">
+          <Time-picker :value="beginTime"  format="HH:mm"    @on-change="beginTimeChange" placeholder="起始时间" style="width: 150px"></Time-picker>
+      </div>
+    <div class="manage-item">
+         <Time-picker :value="endTime"   format="HH:mm"     @on-change="endTimeChange"   placeholder="结束时间"  style="width: 150px" ></Time-picker>
+    </div>
+    <div class="manage-item">
+      <Select v-model="qqGroupId" placeholder="请选择客服群组">
+        <Option v-for="channel in qqGroupsList" :value="channel.Id" :key="channel.GroupName">{{channel.GroupName}}</Option>
+      </Select>
+    </div>
+  
+    <!-- <Button class="manage-item" type="primary" @click="addSchedule">添加</Button> -->
+    <Button class="manage-item" type="success" @click="addSchedule">保存</Button>
+    </div>
+    <Table border :columns="QQScheduleColumns" :data="qqScheduleList" style="margin-top: 20px"></Table>
+  </Card>
+  <Card class="mb-20">
+      <p slot="title">
+        QQ群组管理
+      </p>
+      <div class="manage-bar">
+        <div class="manage-item">
+          <Input v-model="qqgroupName" style="width: 300px" placeholder="群组名称" />
+        </div>
+        <div class="manage-item">
+          <Input v-model="qqNums" style="width: 600px" placeholder="QQ号,使用逗号[,]隔开" />
+        </div>
+      <!-- <Button class="manage-item" type="primary" @click="addGrpups">添加</Button> -->
+      <Button class="manage-item" type="success" @click="addGrpups">保存</Button>
+      </div>
+      <Table border :columns="QQGroupColumns" :data="qqGroupsList" style="margin-top: 20px" ></Table>
+      <div style="margin-top: 10px;overflow: hidden">
+      </div>
+    </Card>
+</div>

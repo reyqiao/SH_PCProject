@@ -36,29 +36,89 @@
       直播间公告管理
     </p>
     <div class="manage-bar">
-      <Input class="manage-item" v-model="notice" style="width: 500px">
+      <Input class="manage-item" v-model="notice" style="width: 800px;">
       </Input>
       <Button class="manage-item" type="primary" @click="updateNotice">保存</Button>
     </div>
   </Card>
   <Card class="mb-20">
     <p slot="title">
+      直播间在线人数设置
+    </p>
+      <ul id="prosuntime">
+        <li class="prosuntime"><label for="prosum1">10：00到12：00</label><input class="prosum" id="prosum1" v-model="prosum1"></input>人</li>
+        <li class="prosuntime"><label for="prosum2">12：00到18：00</label><input class="prosum" id="prosum2" v-model="prosum2"></input>人</li>
+        <li class="prosuntime"><label for="prosum3">18：00到22：00</label><input class="prosum" id="prosum3" v-model="prosum3"></input>人</li>
+        <li class="prosuntime"><Button class="manage-item" style="margin-top:0" type="primary" @click="updateProsum">保存</Button></li>
+      </ul>
+  </Card>
+  <Card class="mb-20">
+    <p slot="title">
       顶部banner管理
     </p>
     <Row>
-      <Col span="16">
+      <Col span="16" style="width:auto;margin-right:20px;">
+      <img v-show="liveBaseData.HeaderBannerData!=''" :src="headerBannerData" class="banner-img" />
+      </Col>
+      <Col span="8">
+      <input type="file" @change="headerUploadImg" />
+      </Col>
+      <Col span="24">
+        <!--选择弹窗还是QQ-->
+        <input type="radio" id="one" value="1" v-model="headerBannerLinkTo" >
+        <label for="one">打开连接</label>
+        <br>
+        <input type="radio" id="two" value="2" v-model="headerBannerLinkTo" >
+        <label for="two">企业QQ</label>
+        <br>
+        <!--选择弹窗还是QQ-->        
+      </Col>
+      <Col span="24">
+      <Input class="manage-item" v-model="headerBannerLink" style="width: 600px;    float: left;">
+      <span slot="prepend">跳转链接：</span>
+      </Input>
+      <Col span="24" style="float: left; width:  auto;margin-left: 20px;margin-top: 20px;"><Button type="primary" @click="headerSaveBanner">保存</Button></Col>
+      </Col>
+    </Row>
+  </Card>
+  <Card class="mb-20">
+    <p slot="title">
+      最新活动banner管理
+    </p>
+    <Row>
+      <Col span="16" style="width:auto;margin-right:20px;">
       <img v-show="liveBaseData.TopBanner!=''" :src="bannerData" class="banner-img" />
       </Col>
       <Col span="8">
       <input type="file" @change="uploadImg" />
       </Col>
       <Col span="24">
-      <Input class="manage-item" v-model="bannerLink" style="width: 600px">
+      <Input class="manage-item" v-model="bannerLink" style="width: 600px;    float: left;">
       <span slot="prepend">跳转链接：</span>
       </Input>
+      <Col span="24" style="float: left; width:  auto;margin-left: 20px;margin-top: 20px;"><Button type="primary" @click="saveBanner">保存</Button></Col>
       </Col>
-      <Col span="24"><Button type="primary" @click="saveBanner">保存</Button></Col>
+      
     </Row>
   </Card>
+  <Card class="mb-20">
+      <p slot="title">
+        游客弹出层管理
+      </p>
+      <Row>
+        <Col span="16" style="width:auto;margin-right:20px;">
+        <img v-show="liveBaseData.PoppicData!=''" :src="poppicData" class="poppic" />
+        </Col>
+        <Col span="8">
+        <input type="file" @change="popUploadImg" />
+        </Col>
+        <Col span="24">
+        <Input class="manage-item" v-model="poppicLink" style="width: 600px;    float: left;">
+        <span slot="prepend">跳转链接：</span>
+        </Input>
+        <Col span="24" style="float: left; width:  auto;margin-left: 20px;margin-top: 20px;"><Button type="primary" @click="SavePoppic">保存</Button></Col>
+        </Col>
+      </Row>
+    </Card>
   <div ms-html="@page"></div>
 </div>

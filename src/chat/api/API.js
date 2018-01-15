@@ -4,11 +4,9 @@
 import Vue from 'vue';
 import liveHost from '../../api/host.js';
 
-const shliveHost = `${liveHost}api/BeforeApi.ashx`; // 'https://live.fxtrade888.com/api/BeforeApi.ashx';
-const livepcHost = liveHost; // 'https://live.fxtrade888.com';
+const shliveHost = `${liveHost}api/BeforeApi.ashx`; 
+const livepcHost = liveHost; 
 
-// const shliveHost = 'https://shlive.niuguwang.com/api/BeforeApi.ashx';
-// const livepcHost = 'https://livepc.niuguwang.com';
 
 const get = (url, arg) => {
   return new Promise((resolve, reject) => {
@@ -326,6 +324,9 @@ module.exports = {
    */
   getInlinePersons(arg) {
     return get(`${livepcHost}/chatroom/chartroom/getcount`, arg);
+  },
+  getLiveServiceQQ(arg) {
+    return get(`${livepcHost}/api/BeforeApi.ashx?action=GetLiveServiceQQ`, arg);
   },
   /**
    * 获取所有渠道列表

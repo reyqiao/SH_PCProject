@@ -59,7 +59,6 @@
     </Modal>
 		<div class="logo f-l">
 			<a href="/live/index.html"><img src="../img/logo.png"></a>
-
 		</div>
 		<div class="top_option f-l">
 			<div class="top-btn" v-show="getUserInfos.roleid == 5||getUserInfos.roleid == 7|| getUserInfos.roleid == 13|| getUserInfos.roleid == 14" @click.stop="clickhmdopt">黑名单管理</div>
@@ -67,21 +66,26 @@
       <div class="top-btn" v-show="getUserInfos.roleid == 7|| getUserInfos.roleid == 14" @click.stop="handanshow=true">我要喊单</div>
       <img class="top-img kefu" src="../img/kefu.png" @click="openQQ(1334076804)" v-show="false"/>
       <img class="top-img shenji" src="../img/majia.png" @click="openQQ(1334076804)" v-show="false"/>
-      <a class="top-btn to-desk" download href="http://live.fxtrade888.com/live/source/%E6%B1%87%E4%BA%A4%E6%98%93%E7%9B%B4%E6%92%AD.url">
-      <img src="../images/todeskicon.png" alt="">
-        保存到桌面
-      </a>
+      <a class="top-btn to-desk" download href="https://live.fxtrade888.com/live/source/%E6%B1%87%E4%BA%A4%E6%98%93%E7%9B%B4%E6%92%AD.url">
+      <!-- <img src="../images/desk.png" alt="">
+        保存到桌面-->
+      </a> 
+        <img class="top-img kefu" v-show="false" style="width:160px;height:39px;margin-top:-10px;border-radius:3.5px;cursor: pointer;" :src="getTopBanner.HeaderBannerData" @click="openTo(getTopBanner.HeaderBannerLinkTo,getTopBanner.HeaderBannerLink)" />
 		</div>
 
 		<div class="userleft f-r clearfix">
+      <!--游客姓名展示-->
 			<div class="username" v-show="getisLogin">
+        <!-- <div class="username"> -->
 				您好，{{getUserInfos.niuguname}}
 			</div>
 			<div v-show="!getisLogin" class="login_btn f-l" @click="loginbtn">
-				登录
+        登录
+        <!--学员登录-->        
 			</div>
 			<div v-show="showRegisterBtn" class="reg_btn f-l"  @click="regbtn">
-				注册
+        注册
+        <!--注册有礼-->
 			</div>
 			<div v-show="getisLogin" class="logout_btn f-l" @click="logout">
 				退出
@@ -91,7 +95,14 @@
 		<Login @token="token => $emit('token', token)" @roleid="roleId => $emit('roleid', roleId)"></Login>
 		<Register/>
 		<Getpwd/>
-	</div>
+  <!--暂时不用-->
+  <!-- <iframe style="display:none;" src="tencent://message/?Menu=yes&uin=510484480&Site=汇交易&Service=300&sigT=45a1e5847943b64c6ff3990f8a9e644d2b31356cb0b4ac6b24663a3c8dd0f8aa12a595b1714f9d45" id="_frame1"></iframe>
+  <Modal
+        v-model="modal10"
+        width="750" style= "background-color:azure">
+        <p @click="openQQ(1334076804)"><img src="../images/10minspop.png" style="height:500px;width:600px;border:0px" ></p>
+  </Modal> -->
+  </div>
 </template>
 
 <script>
@@ -110,6 +121,7 @@ export default {
       hmdoptshow: false,
       handanshow: false,
       handLoading: false,
+      modal10:false,
       handleIndex: 1,// 黑名单管理中切换的id
       jcprice: '', // 喊单中的字段
       vestStyle: '',
@@ -229,6 +241,7 @@ export default {
                     API.delBlack({
                       action: 'deleteblacklist',
                       uid: params.row.userid,
+                      // usertoken: Cookies.get('token'),
                       usertoken: this.$root.token, // Cookies.get('token'),
                     }).then((res) => {
                       this.laheilist.splice(params.index, 1);
@@ -249,12 +262,22 @@ export default {
     // 获取黑名单
     this.$store.dispatch('getRoomBlockUser');
     // 获取水军列表
-    // this.$store.dispatch('getRobot', Cookies.get('token'));
+    //  this.$store.dispatch('getRobot', Cookies.get('token'));//Cookies.get('token');
     this.getRobot(this.$root.token).then(() => {}, () => {});
     // 获取喊单品种
     this.getConstractList();
     // 获取禁言列表
-    this.$store.dispatch('getLaHeiList', this.$root.token); // Cookies.get('token'));
+    this.$store.dispatch('getLaHeiList',this.$root.token); // Cookies.get('token'));
+    // 10分钟弹窗广告 暂时不用
+    //  setInterval(() => {
+    //   // 登录后不弹窗
+    //   if (!Cookies.get('token')) {
+    //     this.$store.commit('setBannerModal', true);
+    //   }else
+    //   {
+    //     console.log("间隔10分钟"+new Date().toString())
+    //   }
+    // }, 600000)
   },
   components: {
     Login,
@@ -327,7 +350,26 @@ export default {
       this.handleIndex = index;
     },
     openQQ(str) {
-      window.open(`http://wpa.qq.com/msgrd?v=3&uin=${str}&site=qq&menu=yes`);
+      let qq = '';
+      const res =  API.getLiveServiceQQ().then((res) => {
+        if (res.result === '1') {
+            qq = res.QQNums;
+            //window.open(`//message/?uin=${qq}&site=qq&menu=yes`);
+            window.open(`http://wpa.qq.com/msgrd?v=3&uin=${qq}&site=qq&menu=yes`);
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
+    },
+    openTo(val,link)
+    {
+      if(val==='1')//打开连接
+      {
+        window.open("'"+link+"'");
+      }else if(val==='2')
+      {
+         window.open(`http://wpa.qq.com/msgrd?v=3&uin=1334076804&site=qq&menu=yes`);        
+      }
     },
     deleteSj(Id) {
       this.$store.dispatch('delRobot', {
@@ -524,8 +566,8 @@ export default {
     margin-left: 20px;
     .top-btn {
       width: 120px;
-      height: 48px;
-      line-height: 48px;
+      height: 40px;
+      line-height: 40px;
       background-color: rgb(59, 64, 74);
       margin: 0 7px;
       text-align: center;
@@ -534,7 +576,7 @@ export default {
       box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
     }
     .to-desk {
-      background: url('../images/todeskbac.png') no-repeat;
+      background: url('../images/desk.png') no-repeat;
       color: rgb(154, 97, 15);
       width: 160px;
       border-radius: inherit;
@@ -552,8 +594,18 @@ export default {
       font-size: 16px;
       margin-left: 12px;
     }
-    & .login_btn,
-    .reg_btn,
+    & .login_btn{
+      margin-left: 20px;
+      width: 74px;
+      height: 34px;
+      font-size: 16px;
+      line-height: 32px;
+      background: rgb(255, 198, 0);      
+      // background-image: url("../images/register.png");
+       text-align: center;
+       border-radius: 3.5px;
+       cursor: pointer;
+    }
     .logout_btn {
       margin-left: 20px;
       width: 74px;
@@ -568,6 +620,15 @@ export default {
     }
     .reg_btn {
       background: rgb(248, 136, 27);
+      margin-left: 20px;
+      width: 74px;
+      height: 32px;
+      font-size: 16px;
+      line-height: 32px;
+     // background-image: url("../images/zc.gif");
+       text-align: center;
+       border-radius: 3.5px;
+       cursor: pointer;
     }
     .logout_btn {
       background: #64B3F0;

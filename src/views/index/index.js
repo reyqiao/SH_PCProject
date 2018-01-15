@@ -85,6 +85,14 @@ export default Vue.extend({
       notice: '',
       bannerData: '',
       bannerLink: '',
+      headerBannerData: '',
+      headerBannerLink: '',
+      headerBannerLinkTo: '',      
+      prosum1: '',
+      prosum2: '',
+      prosum3: '',
+      poppicData: '',
+      poppicLink: '',
     };
   },
   watch: {
@@ -93,6 +101,14 @@ export default Vue.extend({
       this.notice = this.liveBaseData.Notice;
       this.bannerData = this.liveBaseData.TopBanner;
       this.bannerLink = this.liveBaseData.BannerLink;
+      this.headerBannerData = this.liveBaseData.HeaderBannerData;
+      this.headerBannerLink = this.liveBaseData.HeaderBannerLink;
+      this.headerBannerLinkTo = this.liveBaseData.HeaderBannerLinkTo;      
+      this.prosum1 = this.liveBaseData.Prosum1;
+      this.prosum2 = this.liveBaseData.Prosum2;
+      this.prosum3 = this.liveBaseData.Prosum3;
+      this.poppicData = this.liveBaseData.PoppicData;
+      this.poppicLink = this.liveBaseData.PoppicLink;
     },
   },
   computed: {
@@ -110,6 +126,9 @@ export default Vue.extend({
       'addLiveMarquee',
       'updateLiveBaseNotice',
       'updateLiveBaseTopBanner',
+      'updateLiveBaseHeaderBanner',
+      'updateLiveBaseProsum',
+      'updateLiveBasePoppic',
     ]),
     changeGuest(model) {
       // this.guestModel = model;
@@ -162,6 +181,24 @@ export default Vue.extend({
         this.$Message.console.error(MSG_ERR);
       });
     },
+    updateProsum() {
+      this.updateLiveBaseProsum({
+        Prosum1: this.prosum1,
+        Prosum2: this.prosum2,
+        Prosum3: this.prosum3,
+      }).then((res) => {
+        if (res.result === 1 || res.result === '1') {
+          this.getLiveBaseData();
+          this.$Message.success(MSG_SUC);
+        } else {
+          console.log('[erroe]', res);
+          this.$Message.console.error(MSG_SERVER_ERR);
+        }
+      }, (err) => {
+        console.log('[erroe]', err);
+        this.$Message.console.error(MSG_ERR);
+      });
+    },
     uploadImg({
       target: {
         files,
@@ -172,9 +209,42 @@ export default Vue.extend({
         const data = reader.result;
         if (data.length > 0) {
           this.bannerData = data;
+          console.log(this.bannerData);
         }
       };
       reader.readAsDataURL(files[0]);
+      return false;
+    },
+    headerUploadImg({
+      target: {
+        files,
+      },
+    }) {
+      const reader1 = new FileReader();
+      reader1.onload = () => {
+        const data1 = reader1.result;
+        if (data1.length > 0) {
+          this.headerBannerData = data1;
+          console.log(this.headerBannerData);
+        }
+      };
+      reader1.readAsDataURL(files[0]);
+      return false;
+    },
+    popUploadImg({
+      target: {
+        files,
+      },
+    }) {
+      const reader2 = new FileReader();
+      reader2.onload = () => {
+        const data2 = reader2.result;
+        if (data2.length > 0) {
+          this.poppicData = data2;
+          console.log(this.poppicData);
+        }
+      };
+      reader2.readAsDataURL(files[0]);
       return false;
     },
     saveBanner() {
@@ -182,6 +252,47 @@ export default Vue.extend({
         TopBanner: this.bannerData,
         BannerLink: this.bannerLink,
       }).then((res) => {
+        if (res.result === 1 || res.result === '1') {
+          this.getLiveBaseData();
+          this.$Message.success(MSG_SUC);
+        } else {
+          console.log('[erroe]', res);
+          this.$Message.error(MSG_SERVER_ERR);
+        }
+      }, (err) => {
+        console.log('[erroe]', err);
+        this.$Message.console.error(MSG_ERR);
+      });
+    },
+    headerSaveBanner() {
+      console.log(this.headerBannerData);
+      console.log(this.headerBannerLink);
+      this.updateLiveBaseHeaderBanner({
+        HeaderBannerData: this.headerBannerData,
+        HeaderBannerLink: this.headerBannerLink,
+        HeaderBannerLinkTo: this.headerBannerLinkTo,        
+      }).then((res) => {
+        console.log(res);
+        if (res.result === 1 || res.result === '1') {
+          this.getLiveBaseData();
+          this.$Message.success(MSG_SUC);
+        } else {
+          console.log('[erroe]', res);
+          this.$Message.error(MSG_SERVER_ERR);
+        }
+      }, (err) => {
+        console.log('[erroe]', err);
+        this.$Message.console.error(MSG_ERR);
+      });
+    },
+    SavePoppic() {
+      console.log(this.poppicData);
+      console.log(this.poppicLink);
+      this.updateLiveBasePoppic({
+        PoppicData: this.poppicData,
+        PoppicLink: this.poppicLink,
+      }).then((res) => {
+        console.log(res);
         if (res.result === 1 || res.result === '1') {
           this.getLiveBaseData();
           this.$Message.success(MSG_SUC);

@@ -1,15 +1,18 @@
 <template lang="html">
 	<div class="viedoinfos">
 		<div class="notice">
+      <div style="background: rgba(0, 0, 0, 0.5);border-radius: 4px;">
       <div class="notice-top">
-        <img src="../../img/25.png"/>
+        <img src="../../img/gg.png"/>
         <span> 公告</span>
       </div>
       <div class="notice-content">{{getNotice}}</div>
+      </div>
     </div>
     <div class="advance">
+      <div style="background: rgba(0, 0, 0, 0.5);border-radius: 4px;">
       <div class="advance-top">
-        <div class="top-btn up" @click="()=>{perfectActive=true;activeShow =false;tabShow =! tabShow}" style="color: rgb(255,198,0)">
+        <!-- <div class="top-btn up" @click="()=>{perfectActive=true;activeShow =false;tabShow =! tabShow}" style="color: rgb(255,198,0)">
           <span>精彩视频</span>
           <img src="../../img/13.png" v-show="tabShow">
           <img src="../../images/arrow_right.png" v-show="!tabShow">
@@ -26,11 +29,34 @@
               <div class="top-btn" :class="[seltabstypeindex==index ? 'active' : '']" @click="seltabs(index,item.Id)">{{item.VideoName}}</div>
             </template>
           </template>
-        </div>
-        <div class="top-btn up" @click="()=>{activeShow = true;perfectActive =false}">最新活动</div>
+        </div> -->
+        <!--精彩视频下拉-->
+        <Dropdown  @click="()=>{perfectActive=true;activeShow =false;tabShow =! tabShow}" style="color: rgb(255,198,0);">
+          <div class="top-btn up" @click="()=>{perfectActive=true;activeShow =false;tabShow =! tabShow}" style="color: rgb(255,198,0)">
+          <a href="javascript:void(0)">
+             精彩视频
+            <Icon type="arrow-down-b"></Icon>
+          </a>
+          </div>
+          <Dropdown-menu slot="list" class="perfict-content" style="background: rgb(17, 68, 103);">
+            <template v-for="(item,index) in getLiveVideoType">
+              <template v-if="index===0">
+              <div class="top-btn" @click="seltabs(index,item.Id)" :class="[seltabstypeindex==index ? 'active' : '']">{{item.VideoName}}</div>
+              </template>
+              <template v-else-if="index=== getLiveVideoType.length-1">
+                <div class="top-btn" :class="[seltabstypeindex==index ? 'active' : '']" @click="seltabs(index,item.Id)">{{item.VideoName}}</div>
+              </template>
+              <template v-else>
+                <div class="top-btn" :class="[seltabstypeindex==index ? 'active' : '']" @click="seltabs(index,item.Id)">{{item.VideoName}}</div>
+              </template>
+            </template>
+          </Dropdown-menu>
+        </Dropdown> 
+        <!--精彩视频下拉-->
+        <div class="top-btn up" :class="[activeShow==true ? 'active' : '']" @click="()=>{activeShow = true;perfectActive =false}">最新活动</div>
         <div class="active-content" v-show="activeShow&&!perfectActive">
            <a :href="getTopBanner.bannerLink" class="banner">
-          <img :src="getTopBanner.topBanner"></img>
+          <img :src="getTopBanner.topBanner" style="padding:6px;max-width: 750px;max-height: 150px;"></img>
         </a>
         </div>
       </div>
@@ -41,6 +67,8 @@
           </div>
         </template>
       </div>
+    
+    </div>
     </div>
 	</div>
 </template>
@@ -91,8 +119,8 @@ export default {
   },
   watch: {
     getLiveVideoType(val) {
-      if (val.length > 0) {
-        this.$store.commit('setCurrVideoInfosType', val[0]['Id']);
+      if (typeof val !== 'undefined'&&val.length > 0) {
+        this.$store.commit('setCurrVideoInfosType', val[0]['Id']);undefined
         this.seltabs(0, val[0]['Id']);
       }
     },
@@ -141,22 +169,23 @@ export default {
   .notice {
     width: 30%;
     height: 100%;
-    background: rgb(52, 56, 64);
+    background-image:url('../../images/bg.jpg');
     margin-top: 6px;
     border-radius: 4px;
-    padding: 0 12px;
+    margin-left: 4px;
     color: #fff;
     font-size: 14px;
     .notice-top {
       width: 100%;
       height: 36px;
       line-height: 36px;
-      border-bottom: 1px solid rgb(60, 64, 73);
+      margin-left: 5px;
+      border-bottom: 1px solid #F3F3F3;
     }
     .notice-content {
-      height: 150px;
+      height: 145px;
       overflow-y: auto;
-      padding: 14px 0;
+      padding: 14px 7px;
        /*滚动条整体颜色*/
       scrollbar-highlight-color: #555;
       /*滚动条阴影*/
@@ -168,19 +197,21 @@ export default {
   .advance {
     width: 200px;
     height: 100%;
-    background: rgb(52, 56, 64);
+    background-image: url('../../images/bg.jpg');
     margin-top: 6px;
-    margin-left: 6px;
+    margin-left: 2px;
     border-radius: 4px;
     overflow-y: auto;
     flex: 1;
     font-size: 14px;
     .active-content {
+      background: rgba(0,0,0,.5);
+      height: 145px;
+      border-radius: 4px;
       a {
         display: block;
-        padding-top: 53px;
+        // padding-top: 53px;
         text-align: center;
-        display: block;
       }
     }
     .advance-top {
@@ -190,12 +221,13 @@ export default {
       .top-btn {
         height: 36px;
         line-height: 36px;
-        float: left;
+        // float: left;
         padding: 0 15px;
         text-align: center;
         color: #fff;
-        border-right: 1px solid rgb(60, 64, 73);
-        background: rgb(52, 56, 64);
+        border-right: 1px solid #3c4049;
+        border-radius:4px;
+        background-color: #343840;
         cursor: pointer;
         span {
           vertical-align: middle;
@@ -210,10 +242,14 @@ export default {
         }
       }
       .top-btn.up {
-        background: linear-gradient(to bottom, rgb(71, 76, 87), rgb(35, 39, 45));
+        background:linear-gradient(180deg,#474c57,#23272d)114467;
+        display: inline-block;
+        // color: #39f;
+        // linear-gradient(to bottom, rgb(71, 76, 87), rgb(35, 39, 45));
       }
       .top-btn.active {
-        border-bottom: 1px solid #fff;
+        border-bottom: 1px solid #3c4049;
+        color: #39f;
       }
     }
   }

@@ -6,7 +6,6 @@ import host from './host.js';
 
 const liveHost = `${host}api/`;
 
-// const liveHost = 'https://live.fxtrade888.com/api/'; // 'https://shlive.niuguwang.com/api/';
 // 直播间基本管理
 /**
  * 获取直播基础数据
@@ -51,5 +50,28 @@ export const updateLiveBaseNotice = (payload) => {
  */
 export const updateLiveBaseTopBanner = (payload) => {
   const url = `${liveHost}LiveBaseDataApi.ashx?action=UpdateLiveBaseTopBanner`;
+  return post(url, payload);
+};
+/**
+ * 更新直播间headerbanner
+ */
+export const updateLiveBaseHeaderBanner = (payload) => {
+  const url = `${liveHost}LiveBaseDataApi.ashx?action=UpdateLiveBaseHeaderBanner`;
+  return post(url, payload);
+};
+
+/**
+ * 更新直播间在线人数
+ */
+export const updateLiveBaseProsum = (payload) => {
+  const url = `${liveHost}LiveBaseDataApi.ashx?action=UpdateLiveOnlineNumber`;
+  return get(url, payload);
+};
+
+/**
+ * 更新直播间游客弹窗图片
+ */
+export const updateLiveBasePoppic = (payload) => {
+  const url = `${liveHost}LiveBaseDataApi.ashx?action=UpdateLiveBasePoppic`;
   return post(url, payload);
 };
